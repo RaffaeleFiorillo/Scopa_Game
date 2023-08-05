@@ -1,5 +1,5 @@
 from src import Game
-import src.AI
+# import src.AI
 import pygame
 pygame.init()
 
@@ -14,8 +14,8 @@ pygame.display.set_caption("Scopa")
 
 
 def main():
-    partita = Game.partita.PartitaScopa(SCREEN, ["Raffaele", "R.F.J.8"], CLOCK)
-    partita.inizia()
+    match = Game.Match(SCREEN, ["Raffaele", "R.F.J.8"], CLOCK)
+    match.start()
 
 
 main()
