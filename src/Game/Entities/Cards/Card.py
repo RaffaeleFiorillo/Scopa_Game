@@ -28,10 +28,9 @@ class Card:
 				return True
 		return False
 
-	def draw(self, screen):
+	def draw(self, screen, border_color=(0, 255, 255)):
 		if self.active:
-			# print("active")
-			draw.rect(screen, (0, 255, 255), (self.coo[0]-12, self.coo[1]-12, self.size[0]+24, self.size[1]+24))
+			draw.rect(screen, border_color, (self.coo[0]-12, self.coo[1]-12, self.size[0]+24, self.size[1]+24))
 		elif self.hoovered:
-			draw.rect(screen, (0, 255, 100), (self.coo[0]-5, self.coo[1]-5, self.size[0]+10, self.size[1]+10))
+			draw.rect(screen, (233, 213, 22), (self.coo[0]-5, self.coo[1]-5, self.size[0]+10, self.size[1]+10))
 		screen.blit(self.image, self.coo)

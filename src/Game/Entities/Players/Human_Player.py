@@ -5,6 +5,7 @@ from pygame import draw
 class Human(Player):
     def __init__(self, nome):
         super().__init__(nome)
+        self.selected_card = None
 
     # returns the index of the card where the mouse is hovering. Returns -1 if no card is being hovered over
     def mouse_is_on_card(self, mouse_position):
@@ -18,6 +19,7 @@ class Human(Player):
         for i, card in enumerate(self.cards_in_hand):
             if i == card_index:
                 card.active = not card.active
+                self.selected_card = card if card.active else None
             else:
                 card.active = False
 

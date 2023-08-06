@@ -25,7 +25,7 @@ class Match:
         screen.blit(self.background, (0, 0))
         self.player1.draw(self.screen)
         self.player2.draw(self.screen)
-        self.table_cards.draw(self.screen)
+        self.table_cards.draw(self.screen, self.player1.selected_card)
 
     def refresh(self):
         self.draw(self.screen)
@@ -39,9 +39,13 @@ class Match:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     exit()
-                # human has clicked and is its turn to choose a card to play
-                elif event.type == pygame.MOUSEBUTTONUP and event.button == 1 and self.mode != "wait":
-                    self.manage_mouse_events(mouse_pos)
+                elif self.mode != "wait":
+                    keys = pygame.key.get_pressed()
+                    # human has clicked and is its turn to choose a card to play
+                    if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                        self.manage_mouse_events(mouse_pos)
+                    elif event.type == keys[pygame.K_RETURN]:
+                        pass
 
             self.highlight_hovered_card(mouse_pos)
             self.refresh()
@@ -68,15 +72,12 @@ class Match:
             # 1- create a list of possible moves for the chosen card
             # 2- activate the cards on the table that would be taken using the selected card
         # player has chosen a card on the table
-        elif self.mode == "take" and self.table_cards.activate_cards(mouse_position):
+        elif self.mode == "take" and self.player1.selected_card and self.table_cards.activate_cards(mouse_position):
+            # check the sum of the cards selected:
+            #   if sum > card chosen to play: show red border in all selected cards on table
+            #   if sum == card chosen to play: blue border on selected cards and show a "press Enter to take" label
             pass
-            # check if the sum of the cards selected:
-            #   if sum > card chosen to play: deselect all cards on table
-            #   if sum <= card chosen to play: activate flag to show a "press enter to take" label
-            # 1- highlight/de-highlight selected card
-            # 2- highlight the cards in the player's hand which take the combination of selected card on the
-            #    table
-            pass
+
 
     def highlight_hovered_card(self, coo_mouse: (int, int)):
         self.player1.highlight_hovered_card(coo_mouse)
