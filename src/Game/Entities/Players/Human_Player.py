@@ -6,11 +6,19 @@ class Human(Player):
     def __init__(self, nome):
         super().__init__(nome)
 
-    def activate_cards_in_hand(self, mouse_pos):
+    def activate_card(self, mouse_position):
+        card_was_activated = False
         for card in self.cards_in_hand:
-            if card.mouse_dentro(mouse_pos):
+            if card.mouse_is_inside(mouse_position):
                 card.active = not card.active  # reverts the state of the card to its opposite
-                return card.active
+                card_was_activated = True
+            else:
+                card.active = False
+        return card_was_activated
+
+    def highlight_hovered_card(self, mouse_position):
+        for card in self.cards_in_hand:
+            card.hoovered = card.mouse_is_inside(mouse_position)
 
     def draw(self, screen):
         if not self.cards_taken:

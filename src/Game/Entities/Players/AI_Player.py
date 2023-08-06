@@ -8,7 +8,7 @@ class AI(Player):
     def __init__(self):
         super().__init__("R.F.J.8")
         image = load("assets/retro/1.png").convert_alpha()
-        self.card_in_hand_image = scale(image, CARD_SCALES["hand-ai"])
+        self.card_in_hand_image = scale(image, CARD_SCALES["player-ai"])
 
     def draw(self, screen):
         if len(self.cards_in_hand) == 3:

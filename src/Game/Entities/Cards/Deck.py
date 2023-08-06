@@ -15,7 +15,7 @@ class Deck:
 
 	# draw in the sense of taking and not drawing
 	def draw_cards(self, card_location):  # card location refers to where the card is going (hand, table, ...)
-		number_of_cards = 3 if card_location == "mano" else 4  # number of cards to remove from the deck
+		number_of_cards = 3 if card_location == "player" else 4  # number of cards to remove from the deck
 		cards = []
 		for i in range(number_of_cards):
 			card = self.cards.pop(0)
