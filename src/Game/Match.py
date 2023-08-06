@@ -10,7 +10,6 @@ class Match:
         self.background = pygame.image.load("assets\\background.jpg").convert_alpha()
         self.deck = Deck()
         self.table_cards = TableCards()
-        self.turn = None
         self.player1 = Human(names[0])
         self.player2 = AI()
         self.clock = clock
@@ -39,18 +38,29 @@ class Match:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     exit()
-                elif self.mode != "wait":
-                    keys = pygame.key.get_pressed()
-                    # human has clicked and is its turn to choose a card to play
+                elif self.mode != "wait":  # the player is only allowed to play on its turn
                     if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                         self.manage_mouse_events(mouse_pos)
-                    elif event.type == keys[pygame.K_RETURN]:
-                        pass
+                    elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN and self.player1.selected_card:
+                        # the player can use a card to take or just throw it on the table
+                        type_of_move = self.is_valid_choice()
+                        if type_of_move == "take":  # if possible, the player must use the selected card to take
+                            print("take")
+                            self.player1.take_cards(self.table_cards.pop_selected_cards())
+                        elif type_of_move == "throw":  # if a card can't take anything it will be thrown on the table
+                            print("throw")
+                            self.table_cards.receive_card(self.player1.pop_selected_card())
 
             self.highlight_hovered_card(mouse_pos)
             self.refresh()
             self.clock.tick(FPS)
         self.end_of_match()
+
+    def is_valid_choice(self):
+        if self.table_cards.selected_cards_sum == self.player1.selected_card.number:
+            return "take"
+        # if selected card is able to take something show some kind of invalidation message
+        return "throw"
 
     def end_of_match(self):
         print("Game Over")
@@ -77,7 +87,6 @@ class Match:
             #   if sum > card chosen to play: show red border in all selected cards on table
             #   if sum == card chosen to play: blue border on selected cards and show a "press Enter to take" label
             pass
-
 
     def highlight_hovered_card(self, coo_mouse: (int, int)):
         self.player1.highlight_hovered_card(coo_mouse)

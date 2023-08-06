@@ -27,6 +27,18 @@ class Human(Player):
         for card in self.cards_in_hand:
             card.hoovered = card.mouse_is_inside(mouse_position)
 
+    def take_cards(self, cards):
+        # points should be updated here
+        self.cards_taken += cards  # take the cards from the table
+        self.cards_taken.append(self.pop_selected_card())  # take the card used to take those cards
+
+    def pop_selected_card(self):
+        for i, card in enumerate(self.cards_in_hand):
+            if card.active:
+                card.active = False
+                self.selected_card = None
+                return self.cards_in_hand.pop(i)
+
     def draw(self, screen):
         if not self.cards_taken:
             draw.rect(screen, (120, 74, 50), (930, 476, 135, 227))

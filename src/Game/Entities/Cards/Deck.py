@@ -19,6 +19,7 @@ class Deck:
 		cards = []
 		for i in range(number_of_cards):
 			card = self.cards.pop(0)
+			print(i)
 			card.load_card(card_location, i)
 			cards.append(card)
 		return cards

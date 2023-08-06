@@ -1,14 +1,14 @@
 from pygame.image import load
 from pygame.transform import scale
 from pygame import draw
-from src.global_variables import CARD_SCALES, COO_CARDS
+from src.global_variables import CARD_SCALES, COO_CARDS, card_type
 
 
 class Card:
 	def __init__(self, number, seme):
 		self.number = number  # number between 1 and 10 representing the value of the card
 		self.seme = seme  # represents the "house" of the card: Denara, Bastoni, Spade, Coppe
-		self.img_dir = f"assets/{seme}/{number}.png"  # directory of the image of the card
+		self.img_dir = f"assets/cards/{card_type}/{seme}/{number}.png"  # directory of the image of the card
 		self.active = False  # card has been selected
 		self.hoovered = False  # card has the cursor on it
 		self.image = None  # image of the card

@@ -35,6 +35,19 @@ class TableCards:
 		for card in self.cards:
 			card.hoovered = card.mouse_is_inside(mouse_position)
 
+	def receive_card(self, card):
+		card.load_card("table", len(self.cards))  # update the appearance and location of the card
+		self.cards.append(card)  # include the card on the table
+
+	def pop_selected_cards(self):
+		cards, deleted_cards_number = [], 0
+		range_number = len(self.cards)
+		for i in range(range_number):
+			if self.cards[i-deleted_cards_number].active:
+				cards.append(self.cards.pop(i-deleted_cards_number))
+				deleted_cards_number += 1
+		return cards
+
 	def draw(self, screen, selected_card):
 		if selected_card is None or self.selected_cards_sum < selected_card.number:
 			[carta.draw(screen) for carta in self.cards]
