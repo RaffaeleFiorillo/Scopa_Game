@@ -41,22 +41,7 @@ class Match:
                     exit()
                 # human has clicked and is its turn to choose a card to play
                 elif event.type == pygame.MOUSEBUTTONUP and event.button == 1 and self.mode != "wait":
-                    # player has chosen a card in his hand
-                    if self.mode == "choice" and self.player1.activate_card(mouse_pos):
-                        # changing mode in order to enable the player to take cards on the table
-                        self.mode = "take"
-                        print(self.mode)
-                        # 1- create a list of possible moves for the chosen card
-                        # 2- activate the cards on the table that would be taken using the selected card
-                    # player has chosen a card on the table
-                    elif self.mode == "take" and self.table_cards.activate_cards(mouse_pos):
-                        # check if the sum of the cards selected:
-                        #   if sum > card chosen to play: deselect all cards on table
-                        #   if sum <= card chosen to play: activate flag to show a "press enter to take" label
-                        # 1- highlight/de-highlight selected card
-                        # 2- highlight the cards in the player's hand which take the combination of selected card on the
-                        #    table
-                        pass
+                    self.manage_mouse_events(mouse_pos)
 
             self.highlight_hovered_card(mouse_pos)
             self.refresh()
@@ -72,6 +57,26 @@ class Match:
         # 2- animation of player 1 getting his cards into his hands
         self.player2.cards_in_hand = self.deck.draw_cards("player")
         # 4- animation of player 2 getting his cards into his hands
+
+    def manage_mouse_events(self, mouse_position):
+        # player has chosen a card in his hand
+        if (card_index := self.player1.mouse_is_on_card(mouse_position)) > -1:
+            # changing mode in order to enable the player to take cards on the table
+            self.mode = "take"
+            self.player1.toggle_card(card_index)
+            self.table_cards.disable_all_cards()  # cards selected on the table are deselected
+            # 1- create a list of possible moves for the chosen card
+            # 2- activate the cards on the table that would be taken using the selected card
+        # player has chosen a card on the table
+        elif self.mode == "take" and self.table_cards.activate_cards(mouse_position):
+            pass
+            # check if the sum of the cards selected:
+            #   if sum > card chosen to play: deselect all cards on table
+            #   if sum <= card chosen to play: activate flag to show a "press enter to take" label
+            # 1- highlight/de-highlight selected card
+            # 2- highlight the cards in the player's hand which take the combination of selected card on the
+            #    table
+            pass
 
     def highlight_hovered_card(self, coo_mouse: (int, int)):
         self.player1.highlight_hovered_card(coo_mouse)

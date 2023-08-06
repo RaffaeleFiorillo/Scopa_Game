@@ -21,6 +21,10 @@ class TableCards:
 				return card_was_activated
 		return False  # if it reaches this point, no card was activated
 
+	def disable_all_cards(self):
+		for card in self.cards:
+			card.active = False
+
 	def highlight_hovered_card(self, mouse_position):
 		for card in self.cards:
 			card.hoovered = card.mouse_is_inside(mouse_position)
