@@ -14,12 +14,14 @@ class Card:
 		self.image = None  # image of the card
 		self.coo = None  # where the card is printed on the screen
 		self.size = None  # size of the card. It depends if the card is on the table (small) or in player's hand (big)
+		self.order = None
 
 	def load_card(self, tipo, order):
 		image = load(self.img_dir).convert_alpha()
 		self.image = scale(image, CARD_SCALES[tipo])
 		self.coo = COO_CARDS[tipo][order]
 		self.size = CARD_SCALES[tipo]
+		self.order = order
 
 	def mouse_is_inside(self, coo_mouse: (int, int)):
 		cursor_x, cursor_y = coo_mouse[0], coo_mouse[1]

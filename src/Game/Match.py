@@ -45,10 +45,10 @@ class Match:
                         # the player can use a card to take or just throw it on the table
                         type_of_move = self.is_valid_choice()
                         if type_of_move == "take":  # if possible, the player must use the selected card to take
-                            print("take")
+                            # print("take")
                             self.player1.take_cards(self.table_cards.pop_selected_cards())
                         elif type_of_move == "throw":  # if a card can't take anything it will be thrown on the table
-                            print("throw")
+                            # print("throw")
                             self.table_cards.receive_card(self.player1.pop_selected_card())
 
             self.highlight_hovered_card(mouse_pos)
