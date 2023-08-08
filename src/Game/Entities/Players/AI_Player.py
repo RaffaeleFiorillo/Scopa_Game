@@ -1,7 +1,7 @@
 from src.Game.Entities.Players.Player import Player
 from pygame.image import load
 from pygame.transform import scale
-from src.global_variables import CARD_SCALES
+from src.Globals.Variables.Cards import CARD_SCALES
 
 
 class AI(Player):

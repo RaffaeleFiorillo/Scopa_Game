@@ -39,8 +39,8 @@ class Human(Player):
                 self.selected_card = None
                 return self.cards_in_hand.pop(i)
 
-    def draw(self, screen):
+    def draw(self, screen, color_code):
         if not self.cards_taken:
             draw.rect(screen, (120, 74, 50), (930, 476, 135, 227))
         for i, card in enumerate(self.cards_in_hand):
-            card.draw(screen)
+            card.draw(screen, color_code)

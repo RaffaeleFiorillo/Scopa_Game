@@ -53,10 +53,5 @@ class TableCards:
 				deleted_number += 1
 		return cards
 
-	def draw(self, screen, selected_card):
-		if selected_card is None or self.selected_cards_sum < selected_card.number:
-			[carta.draw(screen) for carta in self.cards]
-		elif self.selected_cards_sum == selected_card.number:
-			[carta.draw(screen, (50, 250, 120)) for carta in self.cards]
-		else:  # self.selected_cards_sum > selected_card.number
-			[carta.draw(screen, (255, 0, 0)) for carta in self.cards]
+	def draw(self, screen, color_code):
+		[carta.draw(screen, color_code) for carta in self.cards]

@@ -16,6 +16,22 @@ def get_possible_combinations(card_value, table_cards):
 	return possible_plays
 
 
+# returns True if it is possible to use a card to take, otherwise returns False
+# in the future, when move hints will be available, this function will be removed for len(get_possible_combinations) > 0
+def taking_is_possible(card_value, table_cards):
+	# Use filter to get eligible table cards
+	eligible_table_cards = [i for i in table_cards if i <= card_value]
+	if len(eligible_table_cards) == 0:  # there are no cards that can be taken
+		return False
+	if card_value in eligible_table_cards:  # there is a card with the same value as the one selected
+		return True
+	for r in range(2, len(eligible_table_cards) + 1):
+		for combination in itertools.combinations(eligible_table_cards, r):
+			if sum(combination) == card_value:
+				return True
+	return False
+
+
 def test_get_possible_combinations():
 	test_cases = [
 		([1, 2, 3, 4, 5], 7, [(2, 5), (3, 4), (1, 2, 4)]),

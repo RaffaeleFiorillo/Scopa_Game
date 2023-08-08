@@ -1,14 +1,14 @@
 from pygame.image import load
 from pygame.transform import scale
 from pygame import draw
-from src.global_variables import CARD_SCALES, COO_CARDS, card_type
+from src.Globals.Variables.Cards import CARD_SCALES, CARDS_COO, CARD_TYPE, CARD_COLORS as COLORS
 
 
 class Card:
 	def __init__(self, number, seme):
 		self.number = number  # number between 1 and 10 representing the value of the card
 		self.seme = seme  # represents the "house" of the card: Denara, Bastoni, Spade, Coppe
-		self.img_dir = f"assets/cards/{card_type}/{seme}/{number}.png"  # directory of the image of the card
+		self.img_dir = f"assets/cards/{CARD_TYPE}/{seme}/{number}.png"  # directory of the image of the card
 		self.active = False  # card has been selected
 		self.hoovered = False  # card has the cursor on it
 		self.image = None  # image of the card
@@ -19,7 +19,7 @@ class Card:
 	def load_card(self, tipo, order):
 		image = load(self.img_dir).convert_alpha()
 		self.image = scale(image, CARD_SCALES[tipo])
-		self.coo = COO_CARDS[tipo][order]
+		self.coo = CARDS_COO[tipo][order]
 		self.size = CARD_SCALES[tipo]
 		self.order = order
 
@@ -30,9 +30,9 @@ class Card:
 				return True
 		return False
 
-	def draw(self, screen, border_color=(0, 255, 255)):
+	def draw(self, screen, color_code):
 		if self.active:
-			draw.rect(screen, border_color, (self.coo[0]-12, self.coo[1]-12, self.size[0]+24, self.size[1]+24))
+			draw.rect(screen, COLORS[color_code], (self.coo[0]-12, self.coo[1]-12, self.size[0]+24, self.size[1]+24))
 		elif self.hoovered:
-			draw.rect(screen, (233, 213, 22), (self.coo[0]-5, self.coo[1]-5, self.size[0]+10, self.size[1]+10))
+			draw.rect(screen, COLORS["hover"], (self.coo[0]-5, self.coo[1]-5, self.size[0]+10, self.size[1]+10))
 		screen.blit(self.image, self.coo)
