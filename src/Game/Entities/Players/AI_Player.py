@@ -10,6 +10,9 @@ class AI(Player):
         image = load("assets/retro/1.png").convert_alpha()
         self.card_in_hand_image = scale(image, CARD_SCALES["player-ai"])
 
+    def update(self, dt):
+        pass
+    
     def draw(self, screen):
         if len(self.cards_in_hand) == 3:
             screen.blit(self.card_in_hand_image, (480, 150))

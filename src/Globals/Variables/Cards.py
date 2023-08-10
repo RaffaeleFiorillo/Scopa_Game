@@ -8,7 +8,6 @@ valid_green = (50, 250, 120)
 hover_blue = (0, 255, 255)
 error_red = (255, 0, 0)
 
-CARD_COLORS = {"valid-take": valid_green, "incomplete-take": warning_yellow, "invalid-take": error_red,
-               "valid-throw": valid_green, "invalid-throw": error_red, "hover": hover_blue}
+CARD_COLORS = {"valid": valid_green, "incomplete": warning_yellow, "invalid": error_red, "hover": hover_blue}
 
 CARD_TYPE = "Piacentine"

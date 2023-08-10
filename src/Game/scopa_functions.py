@@ -1,4 +1,4 @@
-import random
+# import random
 import itertools
 
 
@@ -49,4 +49,6 @@ def test_get_possible_combinations():
 	print("All test cases passed!")
 
 
+def get_move_points(selected_card, table_cards):
+	return 0
 # test_get_possible_combinations()

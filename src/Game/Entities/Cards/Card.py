@@ -11,6 +11,7 @@ class Card:
 		self.img_dir = f"assets/cards/{CARD_TYPE}/{seme}/{number}.png"  # directory of the image of the card
 		self.active = False  # card has been selected
 		self.hoovered = False  # card has the cursor on it
+		self.color_code = None
 		self.image = None  # image of the card
 		self.coo = None  # where the card is printed on the screen
 		self.size = None  # size of the card. It depends if the card is on the table (small) or in player's hand (big)
@@ -30,9 +31,12 @@ class Card:
 				return True
 		return False
 
-	def draw(self, screen, color_code):
+	def update(self, dt, color_code):
+		self.color_code = color_code
+	
+	def draw(self, screen):
 		if self.active:
-			draw.rect(screen, COLORS[color_code], (self.coo[0]-12, self.coo[1]-12, self.size[0]+24, self.size[1]+24))
+			draw.rect(screen, COLORS[self.color_code], (self.coo[0]-12, self.coo[1]-12, self.size[0]+24, self.size[1]+24))
 		elif self.hoovered:
 			draw.rect(screen, COLORS["hover"], (self.coo[0]-5, self.coo[1]-5, self.size[0]+10, self.size[1]+10))
 		screen.blit(self.image, self.coo)

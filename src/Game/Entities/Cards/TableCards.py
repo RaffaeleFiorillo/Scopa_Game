@@ -53,5 +53,11 @@ class TableCards:
 				deleted_number += 1
 		return cards
 
-	def draw(self, screen, color_code):
-		[carta.draw(screen, color_code) for carta in self.cards]
+	def update(self, dt, color_code, mouse_position):
+		for card in self.cards:
+			card.hoovered = card.mouse_is_inside(mouse_position)
+			if card.active:
+				card.update(dt, color_code)
+		
+	def draw(self, screen):
+		[carta.draw(screen) for carta in self.cards]
