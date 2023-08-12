@@ -54,7 +54,7 @@ class Match:
 				
 	def manage_keyboard_events(self):
 		if self.move_type == "take":  # if possible, the player must play to take
-			if self.move_effect == "valid":
+			if self.move_effect == "valid" or self.move_effect[:5] == "point":
 				self.player1.take_cards(self.table_cards.pop_selected_cards())
 			elif self.move_effect == "incomplete":
 				pass  # make some error noise and show the user why
@@ -68,11 +68,10 @@ class Match:
 	
 	# AUXILIARY --------------------------------------------------------------------------------------------------------
 	def give_cards(self):
+		# 1- animation of player 1 getting his cards into his hands
 		self.player1.cards_in_hand = self.deck.draw_cards("player")
-		# 2- animation of player 1 getting his cards into his hands
+		# 2- animation of player 2 getting his cards into his hands
 		self.player2.cards_in_hand = self.deck.draw_cards("player")
-	
-	# 4- animation of player 2 getting his cards into his hands
 	
 	# RULES ------------------------------------------------------------------------------------------------------------
 	def apply_taking_rules(self):

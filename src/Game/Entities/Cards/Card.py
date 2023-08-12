@@ -2,6 +2,7 @@ from pygame.image import load
 from pygame.transform import scale
 from pygame import draw
 from src.Globals.Variables.Cards import CARD_SCALES, CARDS_COO, CARD_TYPE, CARD_COLORS as COLORS
+from src.Animations.Cards import FireEffect
 
 
 class Card:
@@ -16,6 +17,11 @@ class Card:
 		self.coo = None  # where the card is printed on the screen
 		self.size = None  # size of the card. It depends if the card is on the table (small) or in player's hand (big)
 		self.order = None
+		self.special_effect = None
+		self.is_settebello = self.number == 7 and self.seme == "Denara"
+		
+	def __int__(self):
+		return self.number
 
 	def load_card(self, tipo, order):
 		image = load(self.img_dir).convert_alpha()
@@ -23,6 +29,9 @@ class Card:
 		self.coo = CARDS_COO[tipo][order]
 		self.size = CARD_SCALES[tipo]
 		self.order = order
+		
+		x, y = self.coo[0], self.coo[1]
+		self.special_effect = FireEffect([x, x+self.size[0]], [y, y+self.size[1]])
 
 	def mouse_is_inside(self, coo_mouse: (int, int)):
 		cursor_x, cursor_y = coo_mouse[0], coo_mouse[1]
@@ -33,10 +42,17 @@ class Card:
 
 	def update(self, dt, color_code):
 		self.color_code = color_code
+		if self.active:
+			self.special_effect.update(dt)
 	
 	def draw(self, screen):
 		if self.active:
-			draw.rect(screen, COLORS[self.color_code], (self.coo[0]-12, self.coo[1]-12, self.size[0]+24, self.size[1]+24))
+			if self.color_code in ("point", "points"):
+				screen.blit(self.image, self.coo)
+				self.special_effect.draw(screen)  # , self.color_code)
+				return None
+			else:
+				draw.rect(screen, COLORS[self.color_code], (self.coo[0]-12, self.coo[1]-12, self.size[0]+24, self.size[1]+24))
 		elif self.hoovered:
 			draw.rect(screen, COLORS["hover"], (self.coo[0]-5, self.coo[1]-5, self.size[0]+10, self.size[1]+10))
 		screen.blit(self.image, self.coo)

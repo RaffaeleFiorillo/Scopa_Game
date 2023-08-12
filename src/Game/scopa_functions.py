@@ -50,5 +50,14 @@ def test_get_possible_combinations():
 
 
 def get_move_points(selected_card, table_cards):
-	return 0
+	active_cards = [card for card in table_cards if card.active]
+	# scopa: after the player takes, there are no more cards on the table
+	is_scopa = len(active_cards) == len(table_cards) and selected_card.number == sum([int(card) for card in active_cards])
+	# settebello: if the player takes the seven of Denara
+	is_settebello = selected_card.is_settebello or len(list(filter(lambda x: x.is_settebello, active_cards))) == 1
+	
+	# scopa + settebello
+	points = (1 if is_scopa else 0) + (1 if is_settebello else 0)
+	print(f"Scopa: {is_scopa} | Settebello: {is_settebello}")
+	return points
 # test_get_possible_combinations()
