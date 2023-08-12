@@ -56,6 +56,7 @@ class Match:
 		if self.move_type == "take":  # if possible, the player must play to take
 			if self.move_effect == "valid" or self.move_effect[:5] == "point":
 				self.player1.take_cards(self.table_cards.pop_selected_cards())
+				self.mode = "choice"  # should be "waiting"
 			elif self.move_effect == "incomplete":
 				pass  # make some error noise and show the user why
 			elif self.move_effect == "invalid":  # if unable to take, the card is thrown on the table
@@ -63,6 +64,7 @@ class Match:
 		elif self.move_type == "throw":
 			if self.move_effect == "valid":
 				self.table_cards.receive_card(self.player1.pop_selected_card())
+				self.mode = "choice"  # should be "waiting"
 			elif self.move_effect == "invalid":
 				pass  # make some error noise and show the user why
 	
@@ -94,7 +96,7 @@ class Match:
 				self.move_effect = "point"
 			else:
 				self.move_effect = "points"
-		print(f"Mode: {self.mode} | Move-Type: {self.move_type} | Card-Effect: {self.move_effect}")
+		# print(f"Mode: {self.mode} | Move-Type: {self.move_type} | Card-Effect: {self.move_effect}")
 	
 	def apply_throwing_rules(self):
 		self.move_type = "throw"
@@ -104,7 +106,7 @@ class Match:
 			self.move_effect = "invalid"
 		else:
 			self.move_effect = "valid"
-		print(f"Mode: {self.mode} | Move-Type: {self.move_type} | Move-Effect: {self.move_effect}")
+		# print(f"Mode: {self.mode} | Move-Type: {self.move_type} | Move-Effect: {self.move_effect}")
 		
 	# MAIN FUNCTIONS ---------------------------------------------------------------------------------------------------
 	def start(self):
@@ -113,9 +115,12 @@ class Match:
 		self.game_loop()  # starting the actual game
 	
 	def game_loop(self):
-		while len(self.deck.cards):  # if there are no more cards in the deck the match is over
-			if not (len(self.player1.cards_in_hand) and len(self.player2.cards_in_hand)):
+		match_is_on, rounds_left = True, 6
+		while match_is_on:
+			if not (len(self.player1.cards_in_hand) and len(self.player2.cards_in_hand)) and rounds_left > 1:
 				self.give_cards()
+				rounds_left -= 1
+				match_is_on = rounds_left >= 0  # if there are no more cards in the deck the match is over
 			
 			# handling input
 			for event in pygame.event.get():
@@ -130,7 +135,6 @@ class Match:
 			self.update()
 			self.refresh()
 			self.dt = self.clock.tick(FPS) / 1000
-		
 		self.end_of_match()
 		
 	def update(self):
@@ -149,4 +153,5 @@ class Match:
 		
 	def end_of_match(self):
 		print("Game Over")
+		pygame.time.wait(20000)
 		self.deck.show_deck()

@@ -49,7 +49,7 @@ class TableCards:
 		for i in range(range_number):
 			if self.cards[i-deleted_number].active:
 				self.available_indexes.append(self.cards[i-deleted_number].order)  # new available place to put a card
-				cards.append(self.cards.pop(i-deleted_number))
+				cards.append(self.cards.pop(i - deleted_number))
 				deleted_number += 1
 		return cards
 

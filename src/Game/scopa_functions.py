@@ -58,6 +58,6 @@ def get_move_points(selected_card, table_cards):
 	
 	# scopa + settebello
 	points = (1 if is_scopa else 0) + (1 if is_settebello else 0)
-	print(f"Scopa: {is_scopa} | Settebello: {is_settebello}")
+	# print(f"Scopa: {is_scopa} | Settebello: {is_settebello}")
 	return points
 # test_get_possible_combinations()
