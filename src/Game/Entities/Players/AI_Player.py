@@ -1,25 +1,21 @@
 from src.Game.Entities.Players.Player import Player
-from pygame.image import load
-from pygame.transform import scale
-from src.Globals.Variables.Cards import CARD_SCALES
+from src.Animations.AI_Player import *
 
 
 class AI(Player):
     def __init__(self):
         super().__init__("R.F.J.8")
-        image = load("assets/retro/1.png").convert_alpha()
-        self.card_in_hand_image = scale(image, CARD_SCALES["player-ai"])
+        self.animations: {str, PlayerAnimation} = {"waiting": IdleAnimation(),
+                                                   "choice": ChoiceAnimation(),
+                                                   "take": TakeAnimation(),
+                                                   "throw": ThrowAnimation()}
+        self.state = "waiting"  # the player is waiting for his turn to play
 
     def update(self, dt):
-        pass
+        if self.state == "start":  # starts the process of making a move
+            self.state = "choice"
+            # self.start_move_choice_process()  # start the thinking thread
+        self.animations[self.state].update(dt, self.cards_in_hand)
     
     def draw(self, screen):
-        if len(self.cards_in_hand) == 3:
-            screen.blit(self.card_in_hand_image, (480, 150))
-            screen.blit(self.card_in_hand_image, (510, 150))
-            screen.blit(self.card_in_hand_image, (540, 150))
-        elif len(self.cards_in_hand) == 2:
-            screen.blit(self.card_in_hand_image, (495, 150))
-            screen.blit(self.card_in_hand_image, (530, 150))
-        elif len(self.cards_in_hand) == 1:
-            screen.blit(self.card_in_hand_image, (512, 150))
+        self.animations[self.state].draw(screen)

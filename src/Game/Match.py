@@ -56,7 +56,7 @@ class Match:
 		if self.move_type == "take":  # if possible, the player must play to take
 			if self.move_effect == "valid" or self.move_effect[:5] == "point":
 				self.player1.take_cards(self.table_cards.pop_selected_cards())
-				self.mode = "choice"  # should be "waiting"
+				self.mode = "waiting"  # should be "waiting"
 			elif self.move_effect == "incomplete":
 				pass  # make some error noise and show the user why
 			elif self.move_effect == "invalid":  # if unable to take, the card is thrown on the table
@@ -64,7 +64,7 @@ class Match:
 		elif self.move_type == "throw":
 			if self.move_effect == "valid":
 				self.table_cards.receive_card(self.player1.pop_selected_card())
-				self.mode = "choice"  # should be "waiting"
+				self.mode = "waiting"
 			elif self.move_effect == "invalid":
 				pass  # make some error noise and show the user why
 	
@@ -122,15 +122,19 @@ class Match:
 				rounds_left -= 1
 				match_is_on = rounds_left >= 0  # if there are no more cards in the deck the match is over
 			
-			# handling input
+			# handling user input
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					exit()
-				elif self.mode != "wait":  # the player is only allowed to play on its turn
+				elif self.mode != "waiting":  # the player is only allowed to play on its turn
 					if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
 						self.manage_mouse_events(self.mouse_position)
 					elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN and self.player1.selected_card:
 						self.manage_keyboard_events()
+			
+			# AI move: if the human player is waiting, it means the AI should play
+			if self.player2.state == "waiting" and self.mode == "waiting":  #
+				self.player2.state = "start"  # set the state of the AI to start the process to make his move
 			
 			self.update()
 			self.refresh()
