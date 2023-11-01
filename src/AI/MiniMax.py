@@ -6,7 +6,7 @@ class MiniMax(BaseThinking):
 		super().__init__()
 	
 	def choose_the_move(self):
-		move, best_move = self.minmax(self.hand_cards, self.table_cards, depth=6, is_maximizing_player=True)
+		move, best_move = self.minmax(self.cards_in_hand, self.table_cards, depth=6, is_maximizing_player=True)
 		self.has_chosen = True
 		self.move_type = "waiting"  # should be "take" or "throw"
 	
@@ -24,7 +24,7 @@ class MiniMax(BaseThinking):
 		pass
 	
 	def minmax(self, player_hand, table_cards, depth, is_maximizing_player):
-		if depth == 0 or len(self.hand_cards) == 0:
+		if depth == 0 or len(self.cards_in_hand) == 0:
 			return self.evaluate_state(player_hand, table_cards), None
 		
 		if is_maximizing_player:

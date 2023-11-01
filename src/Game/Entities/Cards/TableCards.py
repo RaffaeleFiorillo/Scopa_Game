@@ -15,7 +15,7 @@ class TableCards:
 				cards_to_take.append(self.cards.pop(i))
 		return cards_to_take
 
-	def activate_cards(self, mouse_position):
+	def activate_clicked_card(self, mouse_position):
 		for card in self.cards:
 			if card.mouse_is_inside(mouse_position):
 				card_was_activated = not card.active  # reverts the state of the card to its opposite
@@ -26,7 +26,7 @@ class TableCards:
 				card.active = card_was_activated
 				return card_was_activated
 		return False  # if it reaches this point, no card was activated
-
+	
 	def disable_all_cards(self):
 		for card in self.cards:
 			card.active = False
@@ -60,4 +60,4 @@ class TableCards:
 				card.update(dt, color_code)
 		
 	def draw(self, screen):
-		[carta.draw(screen) for carta in self.cards]
+		[card.draw(screen) for card in self.cards]

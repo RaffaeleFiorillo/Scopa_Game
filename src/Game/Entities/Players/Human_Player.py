@@ -1,11 +1,9 @@
 from src.Game.Entities.Players.Player import Player
-from pygame import draw
 
 
 class Human(Player):
 	def __init__(self, name):
-		super().__init__(name)
-		self.selected_card = None
+		super().__init__(name, 476)
 	
 	# returns the index of the card where the mouse is hovering. Returns -1 if no card is being hovered over
 	def mouse_is_on_card(self, mouse_position):
@@ -30,7 +28,6 @@ class Human(Player):
 				card.update(dt, color_code)
 	
 	def draw(self, screen):
-		if not self.cards_taken:
-			draw.rect(screen, (120, 74, 50), (930, 476, 135, 227))
+		super(Human, self).draw(screen)
 		for i, card in enumerate(self.cards_in_hand):
 			card.draw(screen)

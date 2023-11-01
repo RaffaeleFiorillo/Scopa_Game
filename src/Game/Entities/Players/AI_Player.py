@@ -1,16 +1,15 @@
 from src.Game.Entities.Players.Player import Player
+from src.Game.Entities.Cards.TableCards import TableCards
 from src.AI import RandomBehaviour
 from src.Animations.AI_Player import *
 import threading
 
 
 class AI(Player):
-    def __init__(self):
-        super().__init__("R.F.J.8")
-        self.selected_card = None
+    def __init__(self, table_cards: TableCards):
+        super().__init__("R.F.J.8", 230)
         
-        idle_animation = IdleAnimation()
-        animations = {"waiting": idle_animation,
+        animations = {"waiting": IdleAnimation(),
                       "choice": ChoiceAnimation(),
                       "take": TakeAnimation(),
                       "throw": ThrowAnimation()}
@@ -18,20 +17,22 @@ class AI(Player):
         
         self.state = "waiting"  # the player is waiting for his turn to play
         self.is_ready_to_make_a_move = False
-        self.AI = RandomBehaviour()
+        self.AI = RandomBehaviour(table_cards)
         self.thinking_thread: threading.Thread = threading.Thread(target=self.AI.choose_the_move)
-
+    
+    def take_cards_from_deck(self, cards):
+        super(AI, self).take_cards_from_deck(cards)
+        self.AI.cards_in_hand = cards
+        
     def end_turn(self):
         super(AI, self).end_turn()
         self.is_ready_to_make_a_move = False
         
-    def set_up_for_thinking(self, table_cards):
-        self.AI.table_cards = table_cards
+    def set_up_for_thinking(self):
         self.state = "start"
         self.thinking_thread: threading.Thread = threading.Thread(target=self.AI.choose_the_move)
 
     def start_choosing_process(self):
-        self.AI.hand_cards = self.cards_in_hand
         self.thinking_thread.start()
 
     def update(self, dt):
@@ -49,4 +50,5 @@ class AI(Player):
         self.animations[self.state].update(dt, self.cards_in_hand)
     
     def draw(self, screen):
+        super(AI, self).draw(screen)
         self.animations[self.state].draw(screen)

@@ -77,7 +77,6 @@ class Human_VS_AI_Manager(PlayersManager):
 	def manage_mouse_events(self):
 		# player has chosen a card in his hand
 		if (card_index := self.player1.mouse_is_on_card(self.mouse_position)) > -1:
-			print(1)
 			# changing mode in order to enable the player to take cards on the table
 			self.player1.toggle_card(card_index)
 			self.table_cards.disable_all_cards()  # cards selected on the table are deselected
@@ -90,7 +89,7 @@ class Human_VS_AI_Manager(PlayersManager):
 		# 2- activate the cards on the table that would be taken using the selected card]
 		# player has chosen a card on the table
 		elif self.player1.state == "take":
-			self.table_cards.activate_cards(self.mouse_position)
+			self.table_cards.activate_clicked_card(self.mouse_position)
 			if len([1 for card in self.table_cards.cards if card.active]) == 0:
 				self.apply_throwing_rules()
 			else:
@@ -120,7 +119,7 @@ class Human_VS_AI_Manager(PlayersManager):
 		
 		# the AI player should not be waiting anymore since its turn arrived, and should start the process to make his move
 		if self.player2.state == "waiting":
-			self.player2.set_up_for_thinking(self.table_cards.cards)
+			self.player2.set_up_for_thinking()
 		# if the process of choosing a move to make has ended, it's time to apply it
 		elif self.player2.is_ready_to_make_a_move:
 			self.apply_AI_chosen_move()

@@ -26,9 +26,10 @@ class Match:
 	# ------------------------------------------------ AUXILIARY -------------------------------------------------------
 	def give_cards(self):
 		# 1- animation of player 1 getting his cards into his hands
-		self.player1.cards_in_hand = self.deck.draw_cards("player")
+		self.player1.take_cards_from_deck(self.deck.draw_cards("player"))
 		# 2- animation of player 2 getting his cards into his hands
-		self.player2.cards_in_hand = self.deck.draw_cards("player")
+		self.player2.take_cards_from_deck(self.deck.draw_cards("player"))
+		print([str(card) for card in self.player2.cards_in_hand])
 		
 	#  --------------------------------------------- MAIN FUNCTIONS ----------------------------------------------------
 	def start(self):
