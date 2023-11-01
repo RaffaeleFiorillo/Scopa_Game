@@ -3,8 +3,8 @@ from pygame import draw
 
 
 class Human(Player):
-	def __init__(self, nome):
-		super().__init__(nome)
+	def __init__(self, name):
+		super().__init__(name)
 		self.selected_card = None
 	
 	# returns the index of the card where the mouse is hovering. Returns -1 if no card is being hovered over
@@ -23,18 +23,6 @@ class Human(Player):
 			else:
 				card.active = False
 		
-	def take_cards(self, cards):
-		# points should be updated here
-		self.cards_taken += cards  # take the cards from the table
-		self.cards_taken.append(self.pop_selected_card())  # take the card used to take those cards
-	
-	def pop_selected_card(self):
-		for i, card in enumerate(self.cards_in_hand):
-			if card.active:
-				card.active = False
-				self.selected_card = None
-				return self.cards_in_hand.pop(i)
-	
 	def update(self, dt, color_code, mouse_position):
 		for card in self.cards_in_hand:
 			card.hoovered = card.mouse_is_inside(mouse_position)

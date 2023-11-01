@@ -8,10 +8,11 @@ class PlayerAnimation:
 	cards_in_hand = []
 	
 	def __init__(self):
+		self.has_ended = True  # must change to false
 		self.card_in_hand_image = scale(load("assets/retro/1.png").convert_alpha(), CARD_SCALES["player-ai"])
 	
 	def reset(self):
-		pass
+		self.has_ended = False
 	
 	def update(self, dt, cards):
 		self.cards_in_hand = cards

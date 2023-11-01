@@ -1,1 +1,2 @@
-from src.Game.Match import Match
+from src.Game.Matches import Human_VS_AI_Match
+

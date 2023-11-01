@@ -19,10 +19,14 @@ class Card:
 		self.order = None
 		self.special_effect = None
 		self.is_settebello = self.number == 7 and self.seme == "Denara"
+		self.value = (self.seme == "Denara")*0.2 + self.is_settebello*1 + (self.number == 7)*0.25
 		
 	def __int__(self):
 		return self.number
 
+	def __str__(self):
+		return f"House: {self.seme} | Number: {self.number}"
+	
 	def load_card(self, tipo, order):
 		image = load(self.img_dir).convert_alpha()
 		self.image = scale(image, CARD_SCALES[tipo])
